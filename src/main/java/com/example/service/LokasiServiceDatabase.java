@@ -42,4 +42,11 @@ public class LokasiServiceDatabase implements LokasiService {
 		// TODO Auto-generated method stub
 		return lokasiMapper.selectKelurahanId(id_kelurahan);
 	}
+
+
+	@Override
+	public String selectKodeKecamatanUpdate(String id_kelurahan) {
+		// TODO Auto-generated method stub
+		return lokasiMapper.selectKodeKecamatanUpdate(id_kelurahan);
+	}
 }

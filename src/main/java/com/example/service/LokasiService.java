@@ -10,4 +10,6 @@ public interface LokasiService {
 	String selectKodeKecamatanNKK(String nama_kecamatan);
 	
 	String selectKelurahanId(String id_kelurahan);
+	
+	String selectKodeKecamatanUpdate (String id_kelurahan);
 }

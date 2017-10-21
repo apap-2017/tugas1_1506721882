@@ -238,21 +238,20 @@ public class SistemController
     
     @RequestMapping(value = "/keluarga/ubah/{nomor_kk}", method = RequestMethod.POST)
     public String ubahKeluargaSubmit (Model model, @PathVariable(value = "nomor_kk") String nomor_kk,
-    		@RequestParam(value = "nama_kecamatan", required = false) String nama_kecamatan,
-    		@RequestParam(value = "alamat", required = false) String alamat,
-    		@RequestParam(value = "RT", required = false) String RT,
-    		@RequestParam(value = "RW", required = false) String RW,
     		@RequestParam(value = "id_kelurahan", required = false) String id_kelurahan,
-    		@RequestParam(value = "nama_kota", required = false) String nama_kota,
-    		@RequestParam(value = "nama_kelurahan", required = false) String nama_kelurahan,
     		@ModelAttribute KeluargaModel keluarga) {
     	
     	String date = new SimpleDateFormat("ddMMyy").format(Calendar.getInstance().getTime());
     	
-    	String kode_kecamatan = lokasiDAO.selectKodeKecamatanNKK(nama_kecamatan).substring(0,6);
-    	String id_kelurahan1 = lokasiDAO.selectKelurahanId(nama_kelurahan); //udah dapet id
+    	//String kode_kecamatan = lokasiDAO.selectKodeKecamatanNKK(nama_kecamatan).substring(0,6);
+    	//String id_kelurahan1 = lokasiDAO.selectKelurahanId(nama_kelurahan); //udah dapet id
     	
-    	String prefix = kode_kecamatan + date;
+    	
+    	//sekarang cari nama_kecamatan dari id_kelurahan yang diketahui
+    	String kode_kecamatan = lokasiDAO.selectKodeKecamatanUpdate(id_kelurahan);
+    	String kode_kecamatan_new = kode_kecamatan.substring(0,6);
+    	
+    	String prefix = kode_kecamatan_new + date;
     	String query = prefix + "%";
     	
     	int hitungKeluarga = keluargaService.countKeluarga(query);
@@ -260,7 +259,7 @@ public class SistemController
     	String nomor_kk_new = prefix + String.format("%04d", hitungKeluarga + 1);
        	
     	keluarga.setNomor_kk(nomor_kk_new);
-    	keluarga.setId_kelurahan(id_kelurahan1);
+    	keluarga.setId_kelurahan(id_kelurahan);
     	
     	keluargaService.updateKeluarga(keluarga);
 		model.addAttribute("nomor_kk_new", keluarga.getNomor_kk());
