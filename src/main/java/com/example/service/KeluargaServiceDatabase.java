@@ -32,5 +32,12 @@ public class KeluargaServiceDatabase implements KeluargaService {
 		log.info("menambah keluarga dengan list of {}", keluarga);
 		keluargaMapper.addKeluarga(keluarga);
 	}
+
+	@Override
+	public void updateKeluarga(KeluargaModel keluarga) {
+		// TODO Auto-generated method stub
+		log.info("update keluarga ", keluarga);
+		keluargaMapper.updateKeluarga(keluarga);
+	}
 	
 }

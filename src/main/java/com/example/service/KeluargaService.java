@@ -9,4 +9,6 @@ public interface KeluargaService {
 	String selectKeluargaId(String id_kelurahan);
 	
 	void addkeluarga(KeluargaModel keluarga);
+	
+	void updateKeluarga(KeluargaModel keluarga);
 }

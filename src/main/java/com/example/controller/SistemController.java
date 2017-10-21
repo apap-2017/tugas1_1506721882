@@ -127,13 +127,37 @@ public class SistemController
     	}
     }
     
-    @RequestMapping(value = "/penduduk/ubah/{NIK}", method = RequestMethod.POST)
-    public String ubahPendudukSubmit (Model model, @PathVariable(value = "nik") String nik) {
-		
+    @RequestMapping(value = "/penduduk/ubah/{nik}", method = RequestMethod.POST)
+    public String ubahPendudukSubmit (Model model, @PathVariable(value = "nik") String nik, @ModelAttribute PendudukModel penduduk) {
+			
+    	String[] tanggal_lahir = penduduk.getTanggal_lahir().split("-");
+    	int tahun = (Integer.parseInt(tanggal_lahir[0]) % 1000) %100;
+    	int bulan = (Integer.parseInt(tanggal_lahir[1]));
+    	int hari = (Integer.parseInt(tanggal_lahir[2]));
     	
-    		return "not-found";
+    	if(penduduk.getJenis_kelamin() == 1) {
+    		hari += 40;
+    	}
+   
+    	String id_kelurahan = pendudukDAO.selectPendudukID(penduduk.getId_keluarga());
+    	String kode_kecamatan = lokasiDAO.selectKodeKecamatan(id_kelurahan).substring(0, 6);
     	
+    	String prefix = kode_kecamatan + String.format("%02d", hari) + String.format("%02d", bulan) + String.format("%02d", tahun);
+    	String query = prefix + "%";
+    	
+    	int hitungPenduduk = pendudukService.countPenduduk(query);
+   
+    	String getNewNIK = prefix + String.format("%04d", hitungPenduduk + 1);
+    	
+    	penduduk.setNik(getNewNIK);
+    	
+    	pendudukDAO.updatePenduduk(penduduk);
+    	model.addAttribute("nik", nik);
+    //	model.addAttribute("penduduk", penduduk);
+    	return "form-sukses-ubah-penduduk";
     }
+    
+    
     
     /*
      * Keluarga
@@ -198,10 +222,51 @@ public class SistemController
 		return "form-sukses-nambah-keluarga";
     	
     }
- 
     
+    @RequestMapping(value = "/keluarga/ubah/{nomor_kk}", method = RequestMethod.GET)
+    public String ubahKeluarga (Model model, @PathVariable(value = "nomor_kk") String nomor_kk) {
+		
+    	KeluargaModel keluarga = sistemDAO.selectKeluarga(nomor_kk);
+    	
+    	if(keluarga != null) {
+    		model.addAttribute("keluarga", keluarga);
+    		return "form-ubah-keluarga";
+    	} else {
+    		return "not-found";
+    	}
+    }
     
-    
+    @RequestMapping(value = "/keluarga/ubah/{nomor_kk}", method = RequestMethod.POST)
+    public String ubahKeluargaSubmit (Model model, @PathVariable(value = "nomor_kk") String nomor_kk,
+    		@RequestParam(value = "nama_kecamatan", required = false) String nama_kecamatan,
+    		@RequestParam(value = "alamat", required = false) String alamat,
+    		@RequestParam(value = "RT", required = false) String RT,
+    		@RequestParam(value = "RW", required = false) String RW,
+    		@RequestParam(value = "id_kelurahan", required = false) String id_kelurahan,
+    		@RequestParam(value = "nama_kota", required = false) String nama_kota,
+    		@RequestParam(value = "nama_kelurahan", required = false) String nama_kelurahan,
+    		@ModelAttribute KeluargaModel keluarga) {
+    	
+    	String date = new SimpleDateFormat("ddMMyy").format(Calendar.getInstance().getTime());
+    	
+    	String kode_kecamatan = lokasiDAO.selectKodeKecamatanNKK(nama_kecamatan).substring(0,6);
+    	String id_kelurahan1 = lokasiDAO.selectKelurahanId(nama_kelurahan); //udah dapet id
+    	
+    	String prefix = kode_kecamatan + date;
+    	String query = prefix + "%";
+    	
+    	int hitungKeluarga = keluargaService.countKeluarga(query);
+    	
+    	String nomor_kk_new = prefix + String.format("%04d", hitungKeluarga + 1);
+       	
+    	keluarga.setNomor_kk(nomor_kk_new);
+    	keluarga.setId_kelurahan(id_kelurahan1);
+    	
+    	keluargaService.updateKeluarga(keluarga);
+		model.addAttribute("nomor_kk_new", keluarga.getNomor_kk());
+		return "form-sukses-ubah-keluarga";
+    	
+    }    
  }
 
 

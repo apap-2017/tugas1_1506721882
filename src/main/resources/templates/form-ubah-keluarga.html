@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+	<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Ubah Keluarga</title>
+		<link rel="stylesheet" href="/css/bootstrap.min.css"/>
+	</head>
+	<body>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="#">SI Kependudukan</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+					data-target="#navbarSupprotedContent" 
+					aria-controls="navbarSupportedContent" aria-expanded="false"
+					aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span> 
+			</button>
+			
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class ="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="/student/viewall">Home</a>
+					</li>	
+					<li class="nav-item">
+						<a class="nav-link" href="/student/add">Cari Data</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+		<div class="container">
+		<form  th:action="${action}" method="post" th:object="${keluarga}">
+		<h2 class="page-header">Ubah Keluarga</h2>
+		
+			<div>
+				<input type = "hidden" name="id" readonly="true" th:value="${keluarga.id}" />
+			</div>
+			
+			<div>
+				<h2 class="page-header">NKK</h2>
+				<input type="text" name="nomor_kk" readonly="true" th:value="${keluarga.nomor_kk}"/>
+			</div>
+			
+			<div>
+				<h2 class="page-header">Alamat</h2>
+				<input type="text" name="alamat" th:value="${keluarga.alamat}"/>
+			</div>
+			
+			<div>
+				<h2 class="page-header">RT</h2>
+				<input type="text" name="RT" th:value="${keluarga.RT}"/>
+			</div>
+			
+			<div>
+				<h2 class="page-header">RW</h2>
+				<input type="text" name="RW" th:value="${keluarga.RW}"/>
+			</div>
+						
+			<div>
+				<h2 class="page-header">Kelurahan/Desa</h2>
+				<input type="text" name="nama_kelurahan" th:value="${nama_kelurahan}"/>
+			</div>
+			
+			<div>
+				<h2 class="page-header">Kecamatan</h2>
+				<input type="text" name="nama_kecamatan" th:value="${nama_kecamatan}"/>
+			</div>
+			
+			<div>
+				<h2 class="page-header">Kota</h2>
+				<input type="text" name="nama_kota" th:value="${nama_kota}"/>
+			</div>
+			
+			<div>
+				<button type="submit" name="action" value="save" class="btn btn-primary">Simpan</button>
+			</div>
+		</form>
+	</div>
+</body>
+</html>
+	
+	
+	
+	
+	

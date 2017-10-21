@@ -13,5 +13,6 @@ public interface PendudukService {
 
 	int countPenduduk(String query);
 	String selectPendudukID(String id_kelurahan);
+	void updatePenduduk(PendudukModel penduduk);
 
 }

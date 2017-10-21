@@ -29,7 +29,11 @@
 		<div class="container">
 		<form  th:action="${action}" method="post" th:object="${penduduk}">
 		<h2 class="page-header">Ubah Penduduk</h2>
-		
+			
+			<div>
+				<input type = "hidden" name="id" th:value="${penduduk.id}" />
+			</div>
+			
 			<div>
 				<h2 class="page-header">Masukkan Nama</h2>
 				<input type="text" name="nama" readonly="true" th:value="${nama}" th:field="*{nama}"/>
@@ -42,7 +46,7 @@
 				
 			<div>
 				<h2 class="page-header">Jenis Kelamin</h2>
-				<select name="jenis_kelamin" readonly="true" th:field="*{jenis_kelamin}">
+				<select name="jenis_kelamin" readonly="true" th:value="${penduduk.jenis_kelamin}" th:field="*{jenis_kelamin}">
 					<option value="1">Perempuan</option>
 					<option value="0">Laki-laki</option>
 				</select>
@@ -60,7 +64,7 @@
 			
 			<div>
     			<h2 class="page-header">Golongan Darah</h2>
-				<select name="golongan_darah" readonly="true" th:field="*{golongan_darah}">
+				<select name="golongan_darah" readonly="true" th:value="${penduduk.golongan_darah}" th:field="*{golongan_darah}">
 					<option value="AB">AB</option>
 					<option value="O">O</option>
 					<option value="A">A</option>
@@ -70,12 +74,12 @@
 			
 			<div>
 				<h2 class="page-header">Agama</h2>
-				<input type="text" name="agama" readonly="true" th:field="*{agama}"/>
+				<input type="text" name="agama" th:value="${penduduk.agama}" th:field="*{agama}"/>
 			</div>
 			
 			<div>
     			<h2 class="page-header">Status Perkawinan</h2>
-				<select name="status_perkawinan" th:field="*{status_perkawinan}">
+				<select name="status_perkawinan" th:value="${penduduk.status_perkawinan}" th:field="*{status_perkawinan}">
 					<option value="Kawin">Kawin</option>
 					<option value="Belum Kawin">Belum Kawin</option>
 				</select>
@@ -83,12 +87,12 @@
 			
 			<div>
 				<h2 class="page-header">Pekerjaan</h2>
-				<input type="text" name="pekerjaan" th:field="*{pekerjaan}"/>
+				<input type="text" name="pekerjaan" th:value="${penduduk.pekerjaan}" th:field="*{pekerjaan}"/>
 			</div>
 			
 			<div>
 				<h2 class="page-header">Kewarganegaraan</h2>
-				<select name="is_wni" th:field="*{is_wni}">
+				<select name="is_wni" th:value="${penduduk.is_wni}" th:field="*{is_wni}">
 					<option value="1">WNI</option>
 					<option value="0">WNA</option>
 				</select>
@@ -96,7 +100,7 @@
 			
 			<div>
     			<h2 class="page-header">Status Kematian</h2>
-				<select name="is_wafat" th:field="*{is_wafat}">
+				<select name="is_wafat" th:value="${penduduk.is_wafat}" th:field="*{is_wafat}">
 					<option value="0">Hidup</option>
 					<option value="1">Meninggal</option>
 				</select>
@@ -105,12 +109,12 @@
 			
 			<div>
 				<h2 class="page-header">Id Keluarga</h2>
-				<input type="text" readonly="true" name="id_keluarga" th:field="*{id_keluarga}"/>
+				<input type="text" name="id_keluarga" th:value="${penduduk.id_keluarga}" th:field="*{id_keluarga}"/>
 			</div>
 			
 			<div>
 				<h2 class="page-header">Status dalam keluarga</h2>
-				<input type="text" name="status_dalam_keluarga" readonly="true" th:field="*{status_dalam_keluarga}"/>
+				<input type="text" name="status_dalam_keluarga" th:value="${penduduk.status_dalam_keluarga}" th:field="*{status_dalam_keluarga}"/>
 			</div>
 			
 			<div>
