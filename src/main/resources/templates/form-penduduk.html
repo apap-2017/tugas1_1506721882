@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+	<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Index</title>
+		<link rel="stylesheet" href="/css/bootstrap.min.css"/>
+	</head>
+	<body>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="#">SI Kependudukan</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+					data-target="#navbarSupprotedContent" 
+					aria-controls="navbarSupportedContent" aria-expanded="false"
+					aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span> 
+			</button>
+			
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class ="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="/student/viewall">Home</a>
+					</li>	
+					<li class="nav-item">
+						<a class="nav-link" href="/student/add">Cari Data</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	
+		<div class="container">
+			<ul class ="navbar-nav mr-auto">
+				 <h4 th:text=" 'Lihat Data Penduduk ' + ' - ' + ${penduduk.nik}"></h4> 
+       		<div class="row">
+      		<div class="col-6">NIK</div><div class="col-6"><p th:text="${penduduk.nik}"></p></div>
+       		<div class="col-6">Nama</div><div class="col-6"><p th:text="${penduduk.nama}"></p></div>
+       		<div class="col-6">Tempat/Tanggal Lahir</div><div class="col-6"><p th:text="${penduduk.tempat_lahir}  + ', ' + ${penduduk.tanggal_lahir} "></p></div>
+			<div class="col-6">Alamat</div><div class="col-6"><p th:text="${keluarga.alamat}"></p></div>
+       		<div class="col-6">RT/RW</div><div class="col-6"><p th:text="${keluarga.RT} +'/'+ ${keluarga.RW}"></p></div>
+       		<div class="col-6">Kelurahan/Desa</div><div class="col-6"><p th:text="${lokasi.nama_kelurahan}"></p></div>
+       		<div class="col-6">Kecamatan</div><div class="col-6"><p th:text="${lokasi.nama_kecamatan}"></p></div>
+       		<div class="col-6">Kota</div><div class="col-6"><p th:text="${lokasi.nama_kota}"></p></div>
+       		<div class="col-6">Golongan Darah</div><div class="col-6"><p th:text="${penduduk.golongan_darah}"></p></div>
+            <div class="col-6">Agama</div><div class="col-6"><p th:text="${penduduk.agama}"></p></div>
+            <div class="col-6">Status Perkawinan</div><div class="col-6"><p th:text="${penduduk.status_perkawinan}"></p></div>
+            <div class="col-6">Pekerjaan</div><div class="col-6"><p th:text="${penduduk.pekerjaan}"></p></div>
+            <div class="col-6">Kewarganegaraan</div><div class="col-6"><p th:text="${penduduk.is_wni} == true? 'WNI' : 'WNA'"></p></div>
+			<div class="col-6">Status Kematian</div><div class="col-6"><p th:text="${penduduk.is_wafat} == true? 'wafat' : 'hidup'"></p></div>         	
+       		</div>
+	  		<div>
+				<button type="button" class="btn btn-danger" style="text-align:left; padding-left:6px">Nonaktifkan</button>
+			</div>
+			</ul>
+			<br></br>
+		</div>	
+</body>
+</html>

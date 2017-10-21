@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+	<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Index</title>
+		<link rel="stylesheet" href="/css/bootstrap.min.css"/>
+	</head>
+	<body>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="#">SI Kependudukan</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+					data-target="#navbarSupprotedContent" 
+					aria-controls="navbarSupportedContent" aria-expanded="false"
+					aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span> 
+			</button>
+			
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class ="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="/student/viewall">Home</a>
+					</li>	
+					<li class="nav-item">
+						<a class="nav-link" href="/student/add">Cari Data</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+		<div class="container">
+		<form  th:action="${action}" method="post" th:object="${penduduk}">
+		<h2 class="page-header">Ubah Penduduk</h2>
+		
+			<div>
+				<h2 class="page-header">Masukkan Nama</h2>
+				<input type="text" name="nama" readonly="true" th:value="${nama}" th:field="*{nama}"/>
+			</div>
+		
+			<div>
+				<h2 class="page-header">NIK</h2>
+				<input type="text" name="nik" readonly="true" th:value="${nik}" th:field="*{nik}"/>
+			</div>
+				
+			<div>
+				<h2 class="page-header">Jenis Kelamin</h2>
+				<select name="jenis_kelamin" readonly="true" th:field="*{jenis_kelamin}">
+					<option value="1">Perempuan</option>
+					<option value="0">Laki-laki</option>
+				</select>
+			</div>
+			
+			<div>
+				<h2 class="page-header">Tempat Lahir</h2>
+				<input type="text" name="tempat_lahir" readonly="true" th:value="${penduduk.tempat_lahir}" th:field="*{tempat_lahir}"/>
+			</div>
+			
+			<div>
+				<h2 class="page-header">Tanggal Lahir</h2>
+				<input type="date" name="tanggal_lahir" readonly="true" th:value="${penduduk.tanggal_lahir}" th:field="*{tanggal_lahir}"/>
+			</div>
+			
+			<div>
+    			<h2 class="page-header">Golongan Darah</h2>
+				<select name="golongan_darah" readonly="true" th:field="*{golongan_darah}">
+					<option value="AB">AB</option>
+					<option value="O">O</option>
+					<option value="A">A</option>
+					<option value="B">B</option>
+				</select>
+  			</div>
+			
+			<div>
+				<h2 class="page-header">Agama</h2>
+				<input type="text" name="agama" readonly="true" th:field="*{agama}"/>
+			</div>
+			
+			<div>
+    			<h2 class="page-header">Status Perkawinan</h2>
+				<select name="status_perkawinan" th:field="*{status_perkawinan}">
+					<option value="Kawin">Kawin</option>
+					<option value="Belum Kawin">Belum Kawin</option>
+				</select>
+  			</div>
+			
+			<div>
+				<h2 class="page-header">Pekerjaan</h2>
+				<input type="text" name="pekerjaan" th:field="*{pekerjaan}"/>
+			</div>
+			
+			<div>
+				<h2 class="page-header">Kewarganegaraan</h2>
+				<select name="is_wni" th:field="*{is_wni}">
+					<option value="1">WNI</option>
+					<option value="0">WNA</option>
+				</select>
+			</div>
+			
+			<div>
+    			<h2 class="page-header">Status Kematian</h2>
+				<select name="is_wafat" th:field="*{is_wafat}">
+					<option value="0">Hidup</option>
+					<option value="1">Meninggal</option>
+				</select>
+  			</div>
+			
+			
+			<div>
+				<h2 class="page-header">Id Keluarga</h2>
+				<input type="text" readonly="true" name="id_keluarga" th:field="*{id_keluarga}"/>
+			</div>
+			
+			<div>
+				<h2 class="page-header">Status dalam keluarga</h2>
+				<input type="text" name="status_dalam_keluarga" readonly="true" th:field="*{status_dalam_keluarga}"/>
+			</div>
+			
+			<div>
+				<button type="submit" class="btn btn-primary">Simpan</button>
+			</div>
+		</form>
+	</div>
+</body>
+</html>
+	
+	
+	
+	
+	

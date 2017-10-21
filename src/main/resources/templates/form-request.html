@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+	<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Index</title>
+		<link rel="stylesheet" href="/css/bootstrap.min.css"/>
+	</head>
+	<body>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="#">SI Kependudukan</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+					data-target="#navbarSupprotedContent" 
+					aria-controls="navbarSupportedContent" aria-expanded="false"
+					aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span> 
+			</button>
+			
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class ="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="/student/viewall">Home</a>
+					</li>	
+					<li class="nav-item">
+						<a class="nav-link" href="/student/add">Cari Data</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	
+		<div class="container">
+		<h3 class="page-header">Sistem Informasi Kependudukan Online Provinsi DKI Jakarta</h3>
+		<form  action="/penduduk" method="get">
+		<h2 class="page-header">Lihat Data Penduduk Berdasarkan NIK</h2>
+		<h4 class="page-header">Masukkan Nomor Induk Kependudukan</h4>
+			<div>
+				<label for="nik"></label> <input type="text" name="nik"/>
+			</div>
+			<div>
+				<button type="submit" name="action" value="save" class="btn btn-primary">Lihat</button>
+			</div>
+		</form>
+	
+		<form action ="/keluarga" method="get">
+			<h2 class="page-header">Lihat Data Penduduk Berdasarkan NKK</h2>
+			<h4 class="page-header">Masukkan Nomor Keluarga</h4>
+			<div>
+				<label for="nomor_kk"></label> <input type="text" name="nomor_kk"/>
+			</div>
+			<div>
+				<button type="submit" name="action" value="save" class="btn btn-primary">Lihat</button>
+			</div>
+		</form>
+	</div>
+</body>
+</html>
+	
+	
+	
+	
+	
