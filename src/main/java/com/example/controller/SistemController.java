@@ -178,34 +178,32 @@ public class SistemController
     		@RequestParam(value = "kt", required = false) String kt,
     		@RequestParam(value = "kc", required = false) String kc,
     		@RequestParam(value = "kl", required = false) String kl) {
-			
-    	if (kt == null) {
-    		List<KotaModel> allKota = kotaService.selectAllKota();
-        	model.addAttribute("kota", allKota);
-        	return "form-cari";
-    	} else if (kt !=null && kc == null) {
-    		model.addAttribute("kt", kt);
-    		List<KecamatanModel> allKecamatan = kecamatanService.selectAllKecamatanByIdKota(kt);
-    		model.addAttribute("kecamatan", allKecamatan);
-    		return "form-cari-kecamatan";
-    		
-    	} else if (kt != null && kc != null && kl == null) {
-    		model.addAttribute("kl", kl);
-    		List<KelurahanModel> allKelurahan = kelurahanService.selectAllKelurahanByIdKecamatan();
-    		model.addAttribute("kelurahan", allKelurahan);
-    		
-    		return "form-cari-kelurahan";
-    		
-    	} else {
+    	
+    	if (kl != null && kt !=null && kc!=null) {
     		KotaModel kota = kotaService.SelectKotaById(kt);
     		model.addAttribute("kota", kota);
     		KecamatanModel kecamatan = kecamatanService.selectKecamatanById(kc);
     		model.addAttribute("kecamatan", kecamatan);
     		KelurahanModel kelurahan = kelurahanService.selectKelurahanById(kl);
     		model.addAttribute("kelurahan", kelurahan);
-    		
     		return "form-list-penduduk";
-    	}    	
+    		
+    	} else if (kl == null && kt !=null && kc!=null) {
+    		List<KelurahanModel> allKelurahan = kelurahanService.selectAllKelurahanByIdKecamatan(kc);
+    		model.addAttribute("kelurahan", allKelurahan);
+    		model.addAttribute("kl", kl);
+    		return "form-cari-kelurahan";
+    	}
+    	else if (kc == null && kt !=null) {
+    		List<KecamatanModel> allKecamatan = kecamatanService.selectAllKecamatanByIdKota(kt);
+    		model.addAttribute("kecamatan", allKecamatan);
+    		model.addAttribute("kt", kt);
+    		return "form-cari-kecamatan";
+    	}
+    	
+    		List<KotaModel> allKota = kotaService.selectAllKota();
+        	model.addAttribute("kota", allKota);
+        	return "form-cari";
     }
     
     @RequestMapping (value = "/penduduk/mati" , method = RequestMethod.POST)

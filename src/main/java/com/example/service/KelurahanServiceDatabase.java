@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.dao.KelurahanMapper;
 import com.example.model.KelurahanModel;
 
 import lombok.extern.slf4j.Slf4j;
@@ -16,10 +17,13 @@ public class KelurahanServiceDatabase implements KelurahanService{
 	@Autowired
 	private KelurahanService kelurahanService;
 	
+	@Autowired
+	private KelurahanMapper kelurahanMapper;
+	
 	@Override
-	public List<KelurahanModel> selectAllKelurahanByIdKecamatan(){
-		log.info("Ini mengambil seluruh kelurahan ", selectAllKelurahanByIdKecamatan());
-		return kelurahanService.selectAllKelurahanByIdKecamatan();
+	public List<KelurahanModel> selectAllKelurahanByIdKecamatan(String id_kecamatan){
+		log.info("Ini mengambil seluruh kelurahan");
+		return kelurahanMapper.selectAllKelurahanByIdKecamatan(id_kecamatan);
 	}
 
 	@Override

@@ -17,22 +17,22 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class ="navbar-nav mr-auto">
 					<li class="nav-item">
-						<a class="nav-link" href="/student/viewall">Home</a>
+						<a class="nav-link" href="#">Home</a>
 					</li>	
 					<li class="nav-item">
-						<a class="nav-link" href="/student/add">Cari Data</a>
+						<a class="nav-link" href="#">Cari Data</a>
 					</li>
 				</ul>
 			</div>
 		</nav>
 		
 		<div class="container-fluid">
-        	<h3 th:text="'Lihat Data Penduduk Berdasarkan Kecamatan di ' + ${kota.nama_kota.toLowerCase()} + ' , Kecamatan ' + ${kecamatan.nama_kecamatan.toLowerCase()}">Judul</h3>
+        	<h3 th:text="'Lihat Data Penduduk Berdasarkan Kecamatan di ' + ${kota.nama_kota} + ' , Kecamatan ' + ${kecamatan.nama_kecamatan.toLowerCase()}">Judul</h3>
     	</div>
 
 		<div class="container">
 		 <div class="container-fluid">
-        <form method="get" action="/penduduk/cari"> 
+        <form method="get" th:action="@{/penduduk/cari}"> 
         	 <div class="form-group">
                 <label for="kota"><h4>Kota/Kabupaten</h4></label>
                 <select class="form-control" name="kota" id="kota" required="true" >

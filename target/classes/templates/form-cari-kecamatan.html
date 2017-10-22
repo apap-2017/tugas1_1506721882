@@ -17,10 +17,10 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class ="navbar-nav mr-auto">
 					<li class="nav-item">
-						<a class="nav-link" href="/student/viewall">Home</a>
+						<a class="nav-link" href="#">Home</a>
 					</li>	
 					<li class="nav-item">
-						<a class="nav-link" href="/student/add">Cari Data</a>
+						<a class="nav-link" href="#">Cari Data</a>
 					</li>
 				</ul>
 			</div>
@@ -32,7 +32,7 @@
 
 		<div class="container">
 		 <div class="container-fluid">
-        <form method="get" action="/penduduk/cari"> 
+        <form method="get" th:action="@{/penduduk/cari}"> 
         	
             <div class="form-group">
                 <label for="kota"><h4>Kota/Kabupaten</h4></label>
