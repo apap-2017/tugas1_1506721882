@@ -224,15 +224,15 @@ public class SistemController
      pendudukDAO.updatePenduduk(penduduk);
      
      List<PendudukModel> anggota = sistemDAO.selectPendudukList(penduduk.getId_keluarga());	
-		boolean isAllDead = true;
+		boolean semuaMati = true;
 		
 		for (int i = 0; i < anggota.size(); i++) {
 			if (anggota.get(i).getIs_wafat() == 0 && anggota.get(i).getId().compareTo(penduduk.getId()) != 0) {
-				isAllDead = false;
+				semuaMati = false;
 			}
 		}
 		
-		if (isAllDead) {
+		if (semuaMati) {
 			keluarga.setIs_tidak_berlaku(1);
 			keluargaService.updateKeluarga(keluarga);
 		}
