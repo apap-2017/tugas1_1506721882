@@ -213,7 +213,7 @@ public class SistemController
     	
     }
     
-    @RequestMapping(value = "/penduduk/mati/{nik}", method = RequestMethod.POST)
+    @RequestMapping(value = "/penduduk/mati", method = RequestMethod.POST)
 	public String pendudukWafat (Model model, @PathVariable(value = "nik") String nik) {
 		
     	PendudukModel penduduk = sistemDAO.selectPenduduk(nik);
@@ -235,8 +235,10 @@ public class SistemController
 			keluargaService.updateKeluarga(keluarga);		
 		}
 		pendudukService.updatePenduduk(penduduk);
+		model.addAttribute("nik", penduduk.getNik());
 		model.addAttribute("penduduk", penduduk);
-		model.addAttribute("nik", nik);
+		System.out.println(nik);
+	
     	return "form-penduduk-mati";
     	
     }
