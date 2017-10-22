@@ -179,29 +179,26 @@ public class SistemController
     		@RequestParam(value = "kc", required = false) String kc,
     		@RequestParam(value = "kl", required = false) String kl) {
 			
-    	//ambil semua kota
-    	List<KotaModel> allKota = kotaService.selectAllKota();
-    	model.addAttribute("allKota", allKota);
-    	
-    	//ambil semua kecamatan
-    	if (kt != null) {
+    	if (kt == null) {
+    		List<KotaModel> allKota = kotaService.selectAllKota();
+        	model.addAttribute("kota", allKota);
+        	return "form-cari";
+    	} else if (kt !=null && kc == null) {
     		model.addAttribute("kt", kt);
     		List<KecamatanModel> allKecamatan = kecamatanService.selectAllKecamatanByIdKota(kt);
-    		model.addAttribute("allKecamatan", allKecamatan);
-    	}
-    	
-    	//ambil semua kelurahan
-    	if(kl != null) {
+    		model.addAttribute("kecamatan", allKecamatan);
+    		return "form-cari-kecamatan";
+    		
+    	} else if (kt != null && kc != null && kl == null) {
     		model.addAttribute("kl", kl);
     		List<KelurahanModel> allKelurahan = kelurahanService.selectAllKelurahanByIdKecamatan();
-    		model.addAttribute("allKelurahan", allKelurahan);
-    	}
-    	
-    	//jika tidak null, maka akan menampilkan datanya
-    	if (kt != null && kl !=null && kc!=null) {
+    		model.addAttribute("kelurahan", allKelurahan);
+    		
+    		return "form-cari-kelurahan";
+    		
+    	} else {
     		KotaModel kota = kotaService.SelectKotaById(kt);
     		model.addAttribute("kota", kota);
-    		System.out.println(kota);
     		KecamatanModel kecamatan = kecamatanService.selectKecamatanById(kc);
     		model.addAttribute("kecamatan", kecamatan);
     		KelurahanModel kelurahan = kelurahanService.selectKelurahanById(kl);
@@ -209,22 +206,22 @@ public class SistemController
     		
     		return "form-list-penduduk";
     	}    	
-    	return "form-cari";
-    	
     }
     
     @RequestMapping (value = "/penduduk/mati" , method = RequestMethod.POST)
     public String matikanPenduduk (Model model,
-       @RequestParam ( value = "nik" , required = true ) String nik ) throws Exception {
-     PendudukModel penduduk = sistemDAO.selectPenduduk(nik);
+    							  @RequestParam ( value = "nik" , required = true ) String nik ) throws Exception {
      
-     KeluargaModel keluarga = keluargaDAO.selectKeluargaById(penduduk.getId_keluarga());
-     penduduk.setIs_wafat(1);
-     model.addAttribute("nik",nik);
-     pendudukDAO.updatePenduduk(penduduk);
+    	PendudukModel penduduk = sistemDAO.selectPenduduk(nik);
+    	KeluargaModel keluarga = keluargaDAO.selectKeluargaById(penduduk.getId_keluarga());
      
-     List<PendudukModel> anggota = sistemDAO.selectPendudukList(penduduk.getId_keluarga());	
-		boolean semuaMati = true;
+    	penduduk.setIs_wafat(1);
+     
+    	model.addAttribute("nik",nik);
+    	pendudukDAO.updatePenduduk(penduduk);
+     
+    	List<PendudukModel> anggota = sistemDAO.selectPendudukList(penduduk.getId_keluarga());	
+    	boolean semuaMati = true;
 		
 		for (int i = 0; i < anggota.size(); i++) {
 			if (anggota.get(i).getIs_wafat() == 0 && anggota.get(i).getId().compareTo(penduduk.getId()) != 0) {
