@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 	<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 	<head>
-		<title>Index</title>
+		<title>Mencari</title>
 		<link rel="stylesheet" href="/css/bootstrap.min.css"/>
 	</head>
 	<body>
@@ -25,33 +25,25 @@
 				</ul>
 			</div>
 		</nav>
-	
+
 		<div class="container">
-		<h2 class="page-header">Sistem Informasi Kependudukan Online Provinsi DKI Jakarta</h2>
-		<form  action="/penduduk" method="get">
-		<h3 class="page-header">Lihat Data Penduduk Berdasarkan NIK</h3>
-		<h4 class="page-header">Masukkan Nomor Induk Kependudukan</h4>
-			<div>
-				<label for="nik"></label> <input type="text" name="nik"/>
-			</div>
-			<div>
-			<br></br>
-				<button type="submit" name="action" value="save" class="btn btn-primary">Lihat</button>
-			</div>
-		</form>
-		
-		<br></br>
-		<form action ="/keluarga" method="get">
-			<h3 class="page-header">Lihat Data Penduduk Berdasarkan NKK</h3>
-			<h4 class="page-header">Masukkan Nomor Keluarga</h4>
-			<div>
-				<label for="nomor_kk"></label> <input type="text" name="nomor_kk"/>
-			</div>
-			<div>
-			<br></br>
-				<button type="submit" name="action" value="save" class="btn btn-primary">Lihat</button>
-			</div>
-		</form>
+		 <div class="container-fluid">
+        <form method="get" action="/penduduk/cari"> 
+
+            <div class="form-group"> 
+                <label for="kota"><h4>Kota/Kabupaten</h4></label> 
+                <select class="form-control" name="allKota" id="kota" required="true" > 
+                    <option value="kota.nama_kota" th:selected="selected">Pilih Kota</option> 
+                    <div th:each="city,iterationStatus: ${kota}"> 
+                        <option th:value="${kota.id}" th:text="${kota.nama_kota}">Kota yang mau dipilih</option> 
+                    </div> 
+                </select> 
+            </div> 
+
+            <br/> 
+            <button type="submit" class="btn btn-default">Lihat</button> 
+        </form> 
+	</div>
 	</div>
 </body>
 </html>

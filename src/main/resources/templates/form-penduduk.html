@@ -26,6 +26,7 @@
 			</div>
 		</nav>
 	
+	
 		<div class="container">
 			<ul class ="navbar-nav mr-auto">
 				 <h4 th:text=" 'Lihat Data Penduduk ' + ' - ' + ${penduduk.nik}"></h4> 
@@ -43,13 +44,24 @@
             <div class="col-6">Status Perkawinan</div><div class="col-6"><p th:text="${penduduk.status_perkawinan}"></p></div>
             <div class="col-6">Pekerjaan</div><div class="col-6"><p th:text="${penduduk.pekerjaan}"></p></div>
             <div class="col-6">Kewarganegaraan</div><div class="col-6"><p th:text="${penduduk.is_wni} == true? 'WNI' : 'WNA'"></p></div>
-			<div class="col-6">Status Kematian</div><div class="col-6"><p th:text="${penduduk.is_wafat} == true? 'wafat' : 'hidup'"></p></div>         	
-       		</div>
-	  		<div>
-				<button type="button" class="btn btn-danger" style="text-align:left; padding-left:6px">Nonaktifkan</button>
-			</div>
-			</ul>
-			<br></br>
-		</div>	
+			<div class="col-6">Status Kematian</div><div class="col-6"><p th:text="${penduduk.is_wafat} == true? 'wafat' : 'hidup'"></p></div>
+			</div>         	
+       		</ul>
+       	
+       			
+       		
+       		<form action="/penduduk/mati" method = "post">
+  				 <input type = "hidden" name="id" th:value="${penduduk.id}" /> 
+     <input type="hidden" name="nik" th:value= "${penduduk.nik}"></input> 
+     <input type="hidden" name="is_wni" th:value= "${penduduk.is_wni}"></input> 
+     <input type="hidden" name="id_keluarga" th:value= "${penduduk.id_keluarga}"></input> 
+     <input type="hidden" name="agama" th:value= "${penduduk.agama}"></input> 
+     <input type="hidden" name="pekerjaan" th:value= "${penduduk.pekerjaan}"></input> 
+     <input type="hidden" name="status_perkawinan" th:value= "${penduduk.status_perkawinan}"></input> 
+     <input type="hidden" name="status_dalam_keluarga" th:value= "${penduduk.status_dalam_keluarga}"></input> 
+     <input type="hidden" name="is_wafat" th:value= "${penduduk.is_wafat}"></input>
+   <button type="submit" class="btn btn-primary" >Nonaktifkan</button>
+  </form>	
+       		</div>	
 </body>
 </html>

@@ -1,5 +1,7 @@
 package com.example.service;
 
+import java.util.List;
+
 import com.example.model.KeluargaModel;
 
 public interface KeluargaService {
@@ -11,4 +13,6 @@ public interface KeluargaService {
 	void addkeluarga(KeluargaModel keluarga);
 	
 	void updateKeluarga(KeluargaModel keluarga);
+	
+	KeluargaModel selectKeluargaById(String id);
 }

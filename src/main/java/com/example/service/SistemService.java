@@ -21,8 +21,6 @@ public interface SistemService {
 	
 	List<PendudukModel> selectPendudukFromKeluarga(String id_keluarga);
 	
-	
-
 	void addPenduduk(PendudukModel penduduk);
 	
 	

@@ -1,5 +1,7 @@
 package com.example.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -21,6 +23,10 @@ public interface KeluargaMapper {
 	@Select("select id_kelurahan from keluarga where id = #{id_kelurahan}")
 	String selectKeluargaId(String id_kelurahan);
 	
-	@Update("UPDATE keluarga SET nomor_kk = #{nomor_kk}, alamat = #{alamat}, RT = #{RT}, RW = #{RW}, id_kelurahan = #{id_kelurahan}, is_tidak_berlaku = #{is_tidak_berlaku} WHERE id = #{id}")
+	@Update("UPDATE keluarga SET nomor_kk = #{nomor_kk}, alamat = #{alamat}, RT = #{RT}, RW = #{RW}, "
+			+ "id_kelurahan = #{id_kelurahan}, is_tidak_berlaku = #{is_tidak_berlaku} WHERE id = #{id}")
     void updateKeluarga (KeluargaModel keluarga);
+	
+	@Select("select * from keluarga")
+	KeluargaModel selectKeluargaById(String id);
 }

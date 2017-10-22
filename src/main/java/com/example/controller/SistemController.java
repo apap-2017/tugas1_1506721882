@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,10 +19,16 @@ import com.example.dao.KeluargaMapper;
 import com.example.dao.LokasiMapper;
 import com.example.dao.PendudukMapper;
 import com.example.dao.SistemMapper;
+import com.example.model.KecamatanModel;
 import com.example.model.KeluargaModel;
+import com.example.model.KelurahanModel;
+import com.example.model.KotaModel;
 import com.example.model.LokasiModel;
 import com.example.model.PendudukModel;
+import com.example.service.KecamatanService;
 import com.example.service.KeluargaService;
+import com.example.service.KelurahanService;
+import com.example.service.KotaService;
 import com.example.service.PendudukService;
 import com.example.service.SistemService;
 
@@ -47,6 +55,15 @@ public class SistemController
     
     @Autowired
     KeluargaService keluargaService;
+    
+    @Autowired
+    KecamatanService kecamatanService;
+    
+    @Autowired
+    KotaService kotaService;
+    
+    @Autowired
+    KelurahanService kelurahanService;
 
     @RequestMapping("/")
     public String index ()
@@ -153,8 +170,75 @@ public class SistemController
     	
     	pendudukDAO.updatePenduduk(penduduk);
     	model.addAttribute("nik", nik);
-    //	model.addAttribute("penduduk", penduduk);
     	return "form-sukses-ubah-penduduk";
+    }
+    
+    @RequestMapping("/penduduk/cari")
+    public String cariPenduduk (Model model,
+    		@RequestParam(value = "kt", required = false) String kt,
+    		@RequestParam(value = "kc", required = false) String kc,
+    		@RequestParam(value = "kl", required = false) String kl) {
+			
+    	//ambil semua kota
+    	List<KotaModel> allKota = kotaService.selectAllKota();
+    	model.addAttribute("allKota", allKota);
+    	
+    	//ambil semua kecamatan
+    	if (kt != null) {
+    		model.addAttribute("kt", kt);
+    		List<KecamatanModel> allKecamatan = kecamatanService.selectAllKecamatanByIdKota(kt);
+    		model.addAttribute("allKecamatan", allKecamatan);
+    	}
+    	
+    	//ambil semua kelurahan
+    	if(kl != null) {
+    		model.addAttribute("kl", kl);
+    		List<KelurahanModel> allKelurahan = kelurahanService.selectAllKelurahanByIdKecamatan();
+    		model.addAttribute("allKelurahan", allKelurahan);
+    	}
+    	
+    	//jika tidak null, maka akan menampilkan datanya
+    	if (kt != null && kl !=null && kc!=null) {
+    		KotaModel kota = kotaService.SelectKotaById(kt);
+    		model.addAttribute("kota", kota);
+    		System.out.println(kota);
+    		KecamatanModel kecamatan = kecamatanService.selectKecamatanById(kc);
+    		model.addAttribute("kecamatan", kecamatan);
+    		KelurahanModel kelurahan = kelurahanService.selectKelurahanById(kl);
+    		model.addAttribute("kelurahan", kelurahan);
+    		
+    		return "form-list-penduduk";
+    	}    	
+    	return "form-cari";
+    	
+    }
+    
+    @RequestMapping(value = "/penduduk/mati/{nik}", method = RequestMethod.POST)
+	public String pendudukWafat (Model model, @PathVariable(value = "nik") String nik) {
+		
+    	PendudukModel penduduk = sistemDAO.selectPenduduk(nik);
+    	penduduk.setIs_wafat(1);
+    	pendudukDAO.updatePenduduk(penduduk);
+    	
+    	List<PendudukModel> listPenduduk = sistemDAO.selectPendudukList(penduduk.getId_keluarga());
+    	boolean semuaMati = true;
+		
+		for (int i = 0; i < listPenduduk.size(); i++) {
+			if (listPenduduk.get(i).getIs_wafat() == 0 && listPenduduk.get(i).getId().compareTo(penduduk.getId()) != 0) {
+				semuaMati = false;
+			}
+		}
+		
+		if(semuaMati == true) {
+			KeluargaModel keluarga = keluargaDAO.selectKeluargaById(penduduk.getId_keluarga());
+			keluarga.setIs_tidak_berlaku(1);
+			keluargaService.updateKeluarga(keluarga);		
+		}
+		pendudukService.updatePenduduk(penduduk);
+		model.addAttribute("penduduk", penduduk);
+		model.addAttribute("nik", nik);
+    	return "form-penduduk-mati";
+    	
     }
     
     
@@ -191,11 +275,7 @@ public class SistemController
     
     @RequestMapping(value = "/keluarga/tambah", method = RequestMethod.POST)
     public String tambahKeluarga (Model model, @RequestParam(value = "nama_kecamatan", required = false) String nama_kecamatan,
-    		@RequestParam(value = "alamat", required = false) String alamat,
-    		@RequestParam(value = "RT", required = false) String RT,
-    		@RequestParam(value = "RW", required = false) String RW,
     		@RequestParam(value = "id_kelurahan", required = false) String id_kelurahan,
-    		@RequestParam(value = "nama_kota", required = false) String nama_kota,
     		@RequestParam(value = "nama_kelurahan", required = false) String nama_kelurahan,
     		@ModelAttribute KeluargaModel keluarga) {
 		/*
@@ -203,7 +283,7 @@ public class SistemController
 		 */
     	String date = new SimpleDateFormat("ddMMyy").format(Calendar.getInstance().getTime());
     	
-    	String kode_kecamatan = lokasiDAO.selectKodeKecamatanNKK(nama_kecamatan).substring(0,6);
+    	String kode_kecamatan = lokasiDAO.selectKodeKecamatanNKK(nama_kecamatan).substring(0,6); //ambil kode_kecamatan lalu di substring
     	String id_kelurahan1 = lokasiDAO.selectKelurahanId(nama_kelurahan); //udah dapet id
     	
     	String prefix = kode_kecamatan + date;
@@ -220,7 +300,6 @@ public class SistemController
     	keluargaService.addkeluarga(keluarga);
 		model.addAttribute("nomor_kk", keluarga.getNomor_kk());
 		return "form-sukses-nambah-keluarga";
-    	
     }
     
     @RequestMapping(value = "/keluarga/ubah/{nomor_kk}", method = RequestMethod.GET)
@@ -243,10 +322,6 @@ public class SistemController
     	
     	String date = new SimpleDateFormat("ddMMyy").format(Calendar.getInstance().getTime());
     	
-    	//String kode_kecamatan = lokasiDAO.selectKodeKecamatanNKK(nama_kecamatan).substring(0,6);
-    	//String id_kelurahan1 = lokasiDAO.selectKelurahanId(nama_kelurahan); //udah dapet id
-    	
-    	
     	//sekarang cari nama_kecamatan dari id_kelurahan yang diketahui
     	String kode_kecamatan = lokasiDAO.selectKodeKecamatanUpdate(id_kelurahan);
     	String kode_kecamatan_new = kode_kecamatan.substring(0,6);
@@ -264,8 +339,9 @@ public class SistemController
     	keluargaService.updateKeluarga(keluarga);
 		model.addAttribute("nomor_kk_new", keluarga.getNomor_kk());
 		return "form-sukses-ubah-keluarga";
-    	
-    }    
+    }   
+    
+    
  }
 
 
