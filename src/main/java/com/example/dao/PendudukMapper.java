@@ -1,6 +1,9 @@
 package com.example.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import com.example.model.PendudukModel;
@@ -19,4 +22,7 @@ public interface PendudukMapper {
 			+ "status_perkawinan = #{status_perkawinan}, status_dalam_keluarga = #{status_dalam_keluarga}, "
 			+ "golongan_darah = #{golongan_darah}, is_wafat = #{is_wafat} WHERE id = #{id}")
 	void updatePenduduk(PendudukModel penduduk);
+		
+	@Select("SELECT * FROM penduduk WHERE id_keluarga = #{id_keluarga}")
+	List<PendudukModel> selectPendudukById (@Param("id_keluarga") String id_keluarga);
 }

@@ -27,6 +27,7 @@ public interface KeluargaMapper {
 			+ "id_kelurahan = #{id_kelurahan}, is_tidak_berlaku = #{is_tidak_berlaku} WHERE id = #{id}")
     void updateKeluarga (KeluargaModel keluarga);
 	
-	@Select("select * from keluarga")
+	@Select("select * from keluarga where id=#{id} ")
 	KeluargaModel selectKeluargaById(String id);
+	
 }

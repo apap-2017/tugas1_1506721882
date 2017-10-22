@@ -50,10 +50,16 @@
        	
        			
        		
-       		<form action="/penduduk/mati/" method = "post">
-  				 <input type="hidden" name="nik" th:value="${penduduk.nik}" />
-   				 <button type="submit" class="btn btn-primary" >Nonaktifkan</button>
- 			</form>	
+       		<div class="row">
+		      	<div class="col-sm-4" th:if="${penduduk.is_wafat == 0}">
+			      	<form action="/penduduk/mati" method="POST">
+			      		<input type="text" name="nik" th:value="${penduduk.nik}" hidden="true"/>
+			      		<div>
+							<button class="btn btn-danger" type="submit">Nonaktifkan</button>
+						</div>
+			      	</form>
+			    </div>
+		    </div>
        		</div>	
 </body>
 </html>

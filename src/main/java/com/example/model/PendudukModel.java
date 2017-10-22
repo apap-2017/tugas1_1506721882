@@ -1,5 +1,7 @@
 package com.example.model;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,5 +24,6 @@ public class PendudukModel {
 	private String status_dalam_keluarga;
 	private String golongan_darah;
 	private int is_wafat;
+	private List<PendudukModel> penduduk;
 	
 }

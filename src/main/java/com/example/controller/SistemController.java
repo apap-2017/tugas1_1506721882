@@ -213,36 +213,34 @@ public class SistemController
     	
     }
     
-    @RequestMapping(value = "/penduduk/mati", method = RequestMethod.POST)
-	public String pendudukWafat (Model model, @PathVariable(value = "nik") String nik) {
+    @RequestMapping (value = "/penduduk/mati" , method = RequestMethod.POST)
+    public String matikanPenduduk (Model model,
+       @RequestParam ( value = "nik" , required = true ) String nik ) throws Exception {
+     PendudukModel penduduk = sistemDAO.selectPenduduk(nik);
+     
+     KeluargaModel keluarga = keluargaDAO.selectKeluargaById(penduduk.getId_keluarga());
+     penduduk.setIs_wafat(1);
+     model.addAttribute("nik",nik);
+     pendudukDAO.updatePenduduk(penduduk);
+     
+     List<PendudukModel> anggota = sistemDAO.selectPendudukList(penduduk.getId_keluarga());	
+		boolean isAllDead = true;
 		
-    	PendudukModel penduduk = sistemDAO.selectPenduduk(nik);
-    	penduduk.setIs_wafat(1);
-    	pendudukDAO.updatePenduduk(penduduk);
-    	
-    	List<PendudukModel> listPenduduk = sistemDAO.selectPendudukList(penduduk.getId_keluarga());
-    	boolean semuaMati = true;
-		
-		for (int i = 0; i < listPenduduk.size(); i++) {
-			if (listPenduduk.get(i).getIs_wafat() == 0 && listPenduduk.get(i).getId().compareTo(penduduk.getId()) != 0) {
-				semuaMati = false;
+		for (int i = 0; i < anggota.size(); i++) {
+			if (anggota.get(i).getIs_wafat() == 0 && anggota.get(i).getId().compareTo(penduduk.getId()) != 0) {
+				isAllDead = false;
 			}
 		}
 		
-		if(semuaMati == true) {
-			KeluargaModel keluarga = keluargaDAO.selectKeluargaById(penduduk.getId_keluarga());
+		if (isAllDead) {
 			keluarga.setIs_tidak_berlaku(1);
-			keluargaService.updateKeluarga(keluarga);		
+			keluargaService.updateKeluarga(keluarga);
 		}
-		pendudukService.updatePenduduk(penduduk);
-		model.addAttribute("nik", penduduk.getNik());
-		model.addAttribute("penduduk", penduduk);
-		System.out.println(nik);
-	
-    	return "form-penduduk-mati";
-    	
-    }
+     
+     return "form-penduduk-mati";
+       }
     
+  
     
     
     /*

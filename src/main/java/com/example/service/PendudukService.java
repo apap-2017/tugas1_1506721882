@@ -1,6 +1,8 @@
 package com.example.service;
 
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.example.model.PendudukModel;
@@ -14,5 +16,6 @@ public interface PendudukService {
 	int countPenduduk(String query);
 	String selectPendudukID(String id_kelurahan);
 	void updatePenduduk(PendudukModel penduduk);
+	List<PendudukModel> selectPendudukById(String id_keluarga);
 
 }
